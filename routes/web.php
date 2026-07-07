@@ -3,6 +3,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RecepcionistaController;
 use Illuminate\Support\Facades\Route;
 
 // Ruta raíz
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/historial', [HistorialController::class, 'index'])
         ->middleware('rol:dueno')
         ->name('historial.index');
+
+    // Recepcionistas - solo el dueño
+    Route::resource('recepcionistas', RecepcionistaController::class)->only([
+        'index', 'create', 'store', 'destroy'
+    ])->middleware('rol:dueno');
 
 });
 

@@ -24,8 +24,10 @@
                     <h3 class="text-lg font-bold text-gray-800">{{ $cliente->nombre_completo }}</h3>
                     @if($cliente->estado == 'Activo')
                         <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Activo</span>
-                    @else
+                    @elseif($cliente->estado == 'Vencido')
                         <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">Vencido</span>
+                    @else
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">{{ $cliente->estado }}</span>
                     @endif
                 </div>
 

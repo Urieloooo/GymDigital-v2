@@ -12,7 +12,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        Dashboard
+                        Inicio
                     </x-nav-link>
                     <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.*')">
                         Clientes
@@ -23,6 +23,9 @@
                     @if(auth()->user()->esDueno())
                     <x-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.*')">
                         Historial
+                    </x-nav-link>
+                    <x-nav-link :href="route('recepcionistas.index')" :active="request()->routeIs('recepcionistas.*')">
+                        Recepcionistas
                     </x-nav-link>
                     @endif
                 </div>
@@ -81,6 +84,9 @@
             @if(auth()->user()->esDueno())
             <x-responsive-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.*')">
                 Historial
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('recepcionistas.index')" :active="request()->routeIs('recepcionistas.*')">
+                Recepcionistas
             </x-responsive-nav-link>
             @endif
         </div>
