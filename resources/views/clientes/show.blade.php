@@ -65,11 +65,9 @@
                 @if(auth()->user()->esDueno())
                 <div class="mt-6 flex gap-3">
                     <a href="{{ route('clientes.edit', $cliente) }}"
-                       class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition text-sm">
+                       class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm font-medium shadow">
                         Editar Cliente
                     </a>
-
-                    {{-- Botón eliminar --}}
                     <button onclick="document.getElementById('modal-eliminar').classList.remove('hidden')"
                         class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition text-sm">
                         Eliminar Cliente
@@ -91,20 +89,20 @@
                 @if($cliente->pagos->count() > 0)
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead>
-                        <tr class="text-left text-xs text-gray-500 uppercase">
-                            <th class="py-2">Fecha</th>
-                            <th class="py-2">Membresía</th>
-                            <th class="py-2">Método</th>
-                            <th class="py-2">Monto</th>
+                        <tr class="text-left text-xs text-gray-500 uppercase bg-gray-50">
+                            <th class="py-3 px-4">Fecha</th>
+                            <th class="py-3 px-4">Membresía</th>
+                            <th class="py-3 px-4">Método</th>
+                            <th class="py-3 px-4">Monto</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($cliente->pagos as $pago)
-                        <tr>
-                            <td class="py-2">{{ $pago->fecha_pago->format('d/m/Y') }}</td>
-                            <td class="py-2">{{ $pago->membresia->nombre }}</td>
-                            <td class="py-2">{{ $pago->metodo_pago }}</td>
-                            <td class="py-2 font-medium">${{ number_format($pago->monto, 2) }}</td>
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ $pago->fecha_pago->format('d/m/Y') }}</td>
+                            <td class="py-3 px-4">{{ $pago->membresia->nombre }}</td>
+                            <td class="py-3 px-4">{{ $pago->metodo_pago }}</td>
+                            <td class="py-3 px-4 font-medium">${{ number_format($pago->monto, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>

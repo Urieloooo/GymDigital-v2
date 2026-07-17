@@ -18,36 +18,36 @@
                 </div>
             @endif
 
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+            <div class="rounded-lg shadow overflow-hidden" style="background-color: #16213e; border: 1px solid #0f3460;">
+                <table class="w-full" style="border-collapse: collapse; width: 100%;">
+                    <thead style="background-color: #0f3460;">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Membresía</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Monto</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Método</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Registrado por</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Cliente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Membresía</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Monto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Método</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Fecha</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Registrado por</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         @forelse($pagos as $pago)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                                <a href="{{ route('clientes.show', $pago->cliente) }}" class="text-blue-600 hover:underline">
-                                    {{ $pago->cliente->nombre_completo }}
-                                </a>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $pago->membresia->nombre }}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">${{ number_format($pago->monto, 2) }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $pago->metodo_pago }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $pago->fecha_pago->format('d/m/Y') }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $pago->user->name }}</td>
-                        </tr>
+                            <tr style="border-top: 1px solid #0f3460;" onmouseover="this.style.backgroundColor='#0f3460'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td class="px-6 py-4 text-sm font-medium">
+                                    <a href="{{ route('clientes.show', $pago->cliente) }}" style="color: #63b3ed;" class="hover:underline">
+                                        {{ $pago->cliente->nombre_completo }}
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 text-sm" style="color: #e2e8f0;">{{ $pago->membresia->nombre }}</td>
+                                <td class="px-6 py-4 text-sm font-medium" style="color: #ffffff;">${{ number_format($pago->monto, 2) }}</td>
+                                <td class="px-6 py-4 text-sm" style="color: #e2e8f0;">{{ $pago->metodo_pago }}</td>
+                                <td class="px-6 py-4 text-sm" style="color: #e2e8f0;">{{ $pago->fecha_pago->format('d/m/Y') }}</td>
+                                <td class="px-6 py-4 text-sm" style="color: #e2e8f0;">{{ $pago->user->name }}</td>
+                            </tr>
                         @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-gray-400">No hay pagos registrados.</td>
-                        </tr>
+                            <tr>
+                                <td colspan="6" class="px-6 py-8 text-center" style="color: #718096;">No hay pagos registrados.</td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
