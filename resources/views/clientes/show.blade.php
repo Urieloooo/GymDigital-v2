@@ -1,9 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Detalle del Cliente</h2>
+            <h2 class="font-semibold text-xl text-white leading-tight">Detalle del Cliente</h2>
             <a href="{{ route('clientes.index') }}"
-               class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition">
+               style="background-color: #0f3460; color: #e2e8f0; border: 1px solid #16213e;"
+               class="px-4 py-2 rounded hover:opacity-80 transition">
                 ← Volver
             </a>
         </div>
@@ -13,52 +14,52 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if(session('success'))
-                <div class="p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                <div class="p-4 rounded" style="background-color: #163a2c; border: 1px solid #22543d; color: #9ae6b4;">
                     {{ session('success') }}
                 </div>
             @endif
 
             {{-- Datos del cliente --}}
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="rounded-lg shadow p-6" style="background-color: #16213e; border: 1px solid #0f3460;">
                 <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">{{ $cliente->nombre_completo }}</h3>
+                    <h3 class="text-lg font-bold text-white">{{ $cliente->nombre_completo }}</h3>
                     @if($cliente->estado == 'Activo')
-                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Activo</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium" style="background-color: #163a2c; color: #9ae6b4;">Activo</span>
                     @elseif($cliente->estado == 'Vencido')
-                        <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">Vencido</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium" style="background-color: #4a1a1a; color: #fca5a5;">Vencido</span>
                     @else
-                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">{{ $cliente->estado }}</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium" style="background-color: #0f3460; color: #e2e8f0;">{{ $cliente->estado }}</span>
                     @endif
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                        <p class="text-gray-500">Edad</p>
-                        <p class="font-medium">{{ $cliente->edad }} años</p>
+                        <p style="color: #718096;">Edad</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->edad }} años</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Género</p>
-                        <p class="font-medium">{{ $cliente->genero ?? 'Sin especificar' }}</p>
+                        <p style="color: #718096;">Género</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->genero ?? 'Sin especificar' }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Teléfono</p>
-                        <p class="font-medium">{{ $cliente->telefono }}</p>
+                        <p style="color: #718096;">Teléfono</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->telefono }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Correo</p>
-                        <p class="font-medium">{{ $cliente->correo ?? 'Sin correo' }}</p>
+                        <p style="color: #718096;">Correo</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->correo ?? 'Sin correo' }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Membresía</p>
-                        <p class="font-medium">{{ $cliente->membresia->nombre }}</p>
+                        <p style="color: #718096;">Membresía</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->membresia->nombre }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Fecha de Inscripción</p>
-                        <p class="font-medium">{{ $cliente->fecha_inscripcion->format('d/m/Y') }}</p>
+                        <p style="color: #718096;">Fecha de Inscripción</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->fecha_inscripcion->format('d/m/Y') }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Fecha de Vencimiento</p>
-                        <p class="font-medium">{{ $cliente->fecha_vencimiento->format('d/m/Y') }}</p>
+                        <p style="color: #718096;">Fecha de Vencimiento</p>
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $cliente->fecha_vencimiento->format('d/m/Y') }}</p>
                     </div>
                 </div>
 
@@ -77,9 +78,9 @@
             </div>
 
             {{-- Historial de pagos --}}
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="rounded-lg shadow p-6" style="background-color: #16213e; border: 1px solid #0f3460;">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700">Historial de Pagos</h3>
+                    <h3 class="text-lg font-semibold" style="color: #e2e8f0;">Historial de Pagos</h3>
                     <a href="{{ route('pagos.create') }}?cliente_id={{ $cliente->id }}"
                        class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition text-sm">
                         + Registrar Pago
@@ -87,28 +88,28 @@
                 </div>
 
                 @if($cliente->pagos->count() > 0)
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
-                    <thead>
-                        <tr class="text-left text-xs text-gray-500 uppercase bg-gray-50">
-                            <th class="py-3 px-4">Fecha</th>
-                            <th class="py-3 px-4">Membresía</th>
-                            <th class="py-3 px-4">Método</th>
-                            <th class="py-3 px-4">Monto</th>
+                <table class="w-full text-sm" style="border-collapse: collapse;">
+                    <thead style="background-color: #0f3460;">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Fecha</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Membresía</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Método</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium uppercase" style="color: #a0aec0;">Monto</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody>
                         @foreach($cliente->pagos as $pago)
-                        <tr class="hover:bg-gray-50">
-                            <td class="py-3 px-4">{{ $pago->fecha_pago->format('d/m/Y') }}</td>
-                            <td class="py-3 px-4">{{ $pago->membresia->nombre }}</td>
-                            <td class="py-3 px-4">{{ $pago->metodo_pago }}</td>
-                            <td class="py-3 px-4 font-medium">${{ number_format($pago->monto, 2) }}</td>
+                        <tr style="border-top: 1px solid #0f3460;" onmouseover="this.style.backgroundColor='#0f3460'" onmouseout="this.style.backgroundColor='transparent'">
+                            <td class="py-3 px-4" style="color: #e2e8f0;">{{ $pago->fecha_pago->format('d/m/Y') }}</td>
+                            <td class="py-3 px-4" style="color: #e2e8f0;">{{ $pago->membresia->nombre }}</td>
+                            <td class="py-3 px-4" style="color: #e2e8f0;">{{ $pago->metodo_pago }}</td>
+                            <td class="py-3 px-4 font-medium" style="color: #ffffff;">${{ number_format($pago->monto, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
                 @else
-                    <p class="text-gray-400 text-sm">Sin pagos registrados.</p>
+                    <p class="text-sm" style="color: #718096;">Sin pagos registrados.</p>
                 @endif
             </div>
 
@@ -117,21 +118,23 @@
 
     {{-- Modal eliminar --}}
     <div id="modal-eliminar" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full mx-4">
-            <h3 class="text-lg font-bold text-gray-800 mb-2">Eliminar Cliente</h3>
-            <p class="text-sm text-gray-500 mb-4">Esta acción marcará al cliente como eliminado. Ingresa el motivo.</p>
+        <div class="rounded-lg shadow-lg p-6 max-w-md w-full mx-4" style="background-color: #16213e; border: 1px solid #0f3460;">
+            <h3 class="text-lg font-bold text-white mb-2">Eliminar Cliente</h3>
+            <p class="text-sm mb-4" style="color: #a0aec0;">Esta acción marcará al cliente como eliminado. Ingresa el motivo.</p>
 
             <form method="POST" action="{{ route('clientes.destroy', $cliente) }}">
                 @csrf
                 @method('DELETE')
                 <textarea name="motivo" rows="3" required
                     placeholder="Motivo de eliminación..."
-                    class="w-full border rounded px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                    style="background-color: #0f3460; color: #e2e8f0; border: 1px solid #16213e;"
+                    class="w-full rounded px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
 
                 <div class="flex justify-end gap-3">
                     <button type="button"
                         onclick="document.getElementById('modal-eliminar').classList.add('hidden')"
-                        class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition text-sm">
+                        style="background-color: #0f3460; color: #e2e8f0; border: 1px solid #16213e;"
+                        class="px-4 py-2 rounded hover:opacity-80 transition text-sm">
                         Cancelar
                     </button>
                     <button type="submit"
