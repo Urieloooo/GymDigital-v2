@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -20,10 +21,28 @@ class RecepcionistaController extends Controller
 
     public function store(Request $request)
     {
+        // Validación estricta para asegurar que el correo sea exclusivamente de Gmail, Hotmail u Outlook
         $request->validate([
             'name'     => 'required|string|max:100',
-            'email'    => 'required|email|unique:users,email',
+            'email'    => [
+                'required',
+                'email:rfc',
+                'unique:users,email',
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        $domain = strtolower(substr(strrchr($value, "@"), 1));
+                        $dominiosPermitidos = ['gmail.com', 'hotmail.com', 'outlook.com', 'live.com'];
+                        if (!in_array($domain, $dominiosPermitidos)) {
+                            $fail('Solo se permiten correos de Gmail, Hotmail u Outlook (ej. @gmail.com, @hotmail.com).');
+                        }
+                    }
+                },
+            ],
             'password' => 'required|string|min:6|confirmed',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email'    => 'El formato del correo es inválido.',
+            'email.unique'   => 'Este correo electrónico ya está registrado para otro usuario o recepcionista.',
         ]);
 
         User::create([

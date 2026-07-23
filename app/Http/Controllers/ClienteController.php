@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
@@ -44,14 +45,31 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
+        // Validación con restricción estricta de dominios permitidos (Gmail, Hotmail, Outlook, Live)
         $request->validate([
-            'nombre_completo'  => 'required|string|max:100',
-            'edad'             => 'required|integer|min:1|max:120',
-            'telefono'         => 'required|string|max:15|unique:clientes,telefono',
-            'correo'           => 'nullable|email|max:100',
-            'genero'           => 'nullable|string|max:20',
-            'fecha_inscripcion'=> 'required|date',
-            'membresia_id'     => 'required|exists:membresias,id',
+            'nombre_completo'   => 'required|string|max:100',
+            'edad'              => 'required|integer|min:1|max:120',
+            'telefono'          => 'required|string|max:15|unique:clientes,telefono',
+            'correo'            => [
+                'nullable',
+                'email:rfc',
+                'unique:clientes,correo',
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        $domain = strtolower(substr(strrchr($value, "@"), 1));
+                        $dominiosPermitidos = ['gmail.com', 'hotmail.com', 'outlook.com', 'live.com'];
+                        if (!in_array($domain, $dominiosPermitidos)) {
+                            $fail('Solo se permiten correos de Gmail, Hotmail u Outlook (ej. @gmail.com, @hotmail.com).');
+                        }
+                    }
+                },
+            ],
+            'genero'            => 'nullable|string|max:20',
+            'fecha_inscripcion' => 'required|date',
+            'membresia_id'      => 'required|exists:membresias,id',
+        ], [
+            'correo.email'  => 'El formato del correo es inválido.',
+            'correo.unique' => 'Este correo ya pertenece a otro cliente registrado.',
         ]);
 
         $membresia = Membresia::findOrFail($request->membresia_id);
@@ -88,12 +106,29 @@ class ClienteController extends Controller
 
     public function update(Request $request, Cliente $cliente)
     {
+        // Validación estricta de dominios y exclusión del ID actual en la regla unique
         $request->validate([
             'nombre_completo'  => 'required|string|max:100',
             'edad'             => 'required|integer|min:1|max:120',
             'telefono'         => 'required|string|max:15|unique:clientes,telefono,' . $cliente->id,
-            'correo'           => 'nullable|email|max:100',
+            'correo'           => [
+                'nullable',
+                'email:rfc',
+                'unique:clientes,correo,' . $cliente->id,
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        $domain = strtolower(substr(strrchr($value, "@"), 1));
+                        $dominiosPermitidos = ['gmail.com', 'hotmail.com', 'outlook.com', 'live.com'];
+                        if (!in_array($domain, $dominiosPermitidos)) {
+                            $fail('Solo se permiten correos de Gmail, Hotmail u Outlook (ej. @gmail.com, @hotmail.com).');
+                        }
+                    }
+                },
+            ],
             'genero'           => 'nullable|string|max:20',
+        ], [
+            'correo.email'  => 'El formato del correo es inválido.',
+            'correo.unique' => 'Este correo ya pertenece a otro cliente registrado.',
         ]);
 
         $cliente->update($request->only([

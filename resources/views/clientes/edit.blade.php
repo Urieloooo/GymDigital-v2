@@ -74,7 +74,8 @@
                             <label class="block text-sm font-medium mb-1" style="color: #a0aec0;">Correo Electrónico</label>
                             <input type="email" name="correo"
                                 value="{{ old('correo', $cliente->correo) }}"
-                                style="background-color: #0f3460; color: #e2e8f0; border: 1px solid #16213e;"
+                                placeholder="ejemplo@dominio.com"
+                                style="background-color: #0f3460; color: #e2e8f0; border: 1px solid {{ $errors->has('correo') ? '#e53e3e' : '#16213e' }};"
                                 class="w-full rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
 
