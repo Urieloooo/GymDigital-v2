@@ -45,7 +45,7 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
-        // Validación con restricciones estrictas de Nombre, Edad >= 18 y Dominios de Correo permitidos
+        // Validación con regla estricta de exactamente 10 dígitos en el teléfono
         $request->validate([
             'nombre_completo'   => [
                 'required',
@@ -55,7 +55,17 @@ class ClienteController extends Controller
                 'max:100'
             ],
             'edad'              => 'required|integer|min:18|max:120',
-            'telefono'          => 'required|string|max:15|unique:clientes,telefono',
+            'telefono'          => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $digits = preg_replace('/\D/', '', $value); // Extrae solo los números
+                    if (strlen($digits) !== 10) {
+                        $fail('El teléfono debe contener exactamente 10 números.');
+                    }
+                },
+                'unique:clientes,telefono'
+            ],
             'correo'            => [
                 'nullable',
                 'email:rfc',
@@ -79,6 +89,8 @@ class ClienteController extends Controller
             'nombre_completo.regex'    => 'El nombre solo debe contener letras y espacios reales (sin números ni símbolos).',
             'edad.min'                 => 'El cliente debe ser mayor de 17 años (edad mínima de 18 años).',
             'edad.integer'             => 'La edad debe ser un número entero.',
+            'telefono.required'        => 'El teléfono es obligatorio.',
+            'telefono.unique'          => 'Este número de teléfono ya está registrado con otro cliente.',
             'correo.email'             => 'El formato del correo es inválido.',
             'correo.unique'            => 'Este correo ya pertenece a otro cliente registrado.',
         ]);
@@ -127,7 +139,17 @@ class ClienteController extends Controller
                 'max:100'
             ],
             'edad'             => 'required|integer|min:18|max:120',
-            'telefono'         => 'required|string|max:15|unique:clientes,telefono,' . $cliente->id,
+            'telefono'         => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) use ($cliente) {
+                    $digits = preg_replace('/\D/', '', $value);
+                    if (strlen($digits) !== 10) {
+                        $fail('El teléfono debe contener exactamente 10 números.');
+                    }
+                },
+                'unique:clientes,telefono,' . $cliente->id
+            ],
             'correo'           => [
                 'nullable',
                 'email:rfc',
@@ -149,6 +171,8 @@ class ClienteController extends Controller
             'nombre_completo.regex'    => 'El nombre solo debe contener letras y espacios reales (sin números ni símbolos).',
             'edad.min'                 => 'El cliente debe ser mayor de 17 años (edad mínima de 18 años).',
             'edad.integer'             => 'La edad debe ser un número entero.',
+            'telefono.required'        => 'El teléfono es obligatorio.',
+            'telefono.unique'          => 'Este número de teléfono ya está registrado con otro cliente.',
             'correo.email'             => 'El formato del correo es inválido.',
             'correo.unique'            => 'Este correo ya pertenece a otro cliente registrado.',
         ]);
