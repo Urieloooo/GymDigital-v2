@@ -45,10 +45,16 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
-        // Validación con restricción estricta de dominios permitidos (Gmail, Hotmail, Outlook, Live)
+        // Validación con restricciones estrictas de Nombre, Edad >= 18 y Dominios de Correo permitidos
         $request->validate([
-            'nombre_completo'   => 'required|string|max:100',
-            'edad'              => 'required|integer|min:1|max:120',
+            'nombre_completo'   => [
+                'required',
+                'string',
+                'min:3',
+                'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/',
+                'max:100'
+            ],
+            'edad'              => 'required|integer|min:18|max:120',
             'telefono'          => 'required|string|max:15|unique:clientes,telefono',
             'correo'            => [
                 'nullable',
@@ -68,8 +74,13 @@ class ClienteController extends Controller
             'fecha_inscripcion' => 'required|date',
             'membresia_id'      => 'required|exists:membresias,id',
         ], [
-            'correo.email'  => 'El formato del correo es inválido.',
-            'correo.unique' => 'Este correo ya pertenece a otro cliente registrado.',
+            'nombre_completo.required' => 'El nombre completo es obligatorio.',
+            'nombre_completo.min'      => 'El nombre debe tener al menos 3 caracteres.',
+            'nombre_completo.regex'    => 'El nombre solo debe contener letras y espacios reales (sin números ni símbolos).',
+            'edad.min'                 => 'El cliente debe ser mayor de 17 años (edad mínima de 18 años).',
+            'edad.integer'             => 'La edad debe ser un número entero.',
+            'correo.email'             => 'El formato del correo es inválido.',
+            'correo.unique'            => 'Este correo ya pertenece a otro cliente registrado.',
         ]);
 
         $membresia = Membresia::findOrFail($request->membresia_id);
@@ -106,10 +117,16 @@ class ClienteController extends Controller
 
     public function update(Request $request, Cliente $cliente)
     {
-        // Validación estricta de dominios y exclusión del ID actual en la regla unique
+        // Se aplican las mismas reglas estrictas para la edición
         $request->validate([
-            'nombre_completo'  => 'required|string|max:100',
-            'edad'             => 'required|integer|min:1|max:120',
+            'nombre_completo'  => [
+                'required',
+                'string',
+                'min:3',
+                'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/',
+                'max:100'
+            ],
+            'edad'             => 'required|integer|min:18|max:120',
             'telefono'         => 'required|string|max:15|unique:clientes,telefono,' . $cliente->id,
             'correo'           => [
                 'nullable',
@@ -127,8 +144,13 @@ class ClienteController extends Controller
             ],
             'genero'           => 'nullable|string|max:20',
         ], [
-            'correo.email'  => 'El formato del correo es inválido.',
-            'correo.unique' => 'Este correo ya pertenece a otro cliente registrado.',
+            'nombre_completo.required' => 'El nombre completo es obligatorio.',
+            'nombre_completo.min'      => 'El nombre debe tener al menos 3 caracteres.',
+            'nombre_completo.regex'    => 'El nombre solo debe contener letras y espacios reales (sin números ni símbolos).',
+            'edad.min'                 => 'El cliente debe ser mayor de 17 años (edad mínima de 18 años).',
+            'edad.integer'             => 'La edad debe ser un número entero.',
+            'correo.email'             => 'El formato del correo es inválido.',
+            'correo.unique'            => 'Este correo ya pertenece a otro cliente registrado.',
         ]);
 
         $cliente->update($request->only([
